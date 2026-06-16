@@ -113,6 +113,7 @@ Kurulum gerektirmez.
 3. Kaydet butonuna basın.
 
 > API anahtarları yalnızca kullanıcının kendi tarayıcısındaki Local Storage alanında saklanır.
+> Gemini API kullanım limitlerine ulaşabilir; J.A.R.V.I.S. bu durumu algılar ve bildirir, kesintisiz kullanım için yeterli API kredisine sahip bir plan önerilir.
 
 ---
 
