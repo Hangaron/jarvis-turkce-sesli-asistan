@@ -151,7 +151,7 @@ else if (
 # 📂 Proje Yapısı
 
 ```text
- index.html
+ jarvis_dashboard.html
 jarvis_bridge.py
  README.md
 ```
