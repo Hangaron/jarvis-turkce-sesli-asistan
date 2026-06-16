@@ -1,88 +1,136 @@
 # 🌐 J.A.R.V.I.S. Core Dashboard // Hangaronn OS
 
-**J.A.R.V.I.S. Core Dashboard**, tamamen tarayıcı tabanlı çalışan (HTML5, CSS3 ve JavaScript), Google Gemini API entegrasyonuna sahip ve yerel bir Python Bridge sayesinde bilgisayarınızdaki uygulamaları sesli komutlarla kontrol edebilen siberpunk temalı açık kaynaklı bir yapay zeka asistanıdır.
+**J.A.R.V.I.S. Core Dashboard**, tamamen açık kaynak kodlu olarak geliştirilen, HTML5, CSS3 ve JavaScript teknolojileri üzerine inşa edilmiş siberpunk temalı bir yapay zeka asistanıdır.
 
-> Geliştirici Notu: Bu proje, Emirhan "Hangaronn" Vardar tarafından açık kaynak topluluğuna katkı sağlamak amacıyla geliştirilmiştir. Tasarım dili olarak turuncu ve siyah neon tonları, modern Arc Reactor estetiği ve fütüristik kontrol paneli konsepti benimsenmiştir.
+Google Gemini entegrasyonu, sesli komut desteği ve isteğe bağlı Python Desktop Bridge sistemi sayesinde hem yapay zeka sohbetleri gerçekleştirebilir hem de bilgisayarınızdaki uygulamaları sesli komutlarla kontrol edebilirsiniz.
+
+Bu proje, modern fütüristik kullanıcı arayüzleri ve yapay zeka teknolojilerini bir araya getirerek herkesin geliştirebileceği açık kaynaklı bir J.A.R.V.I.S. deneyimi sunmayı amaçlamaktadır.
+
+> Geliştirici Notu: Bu proje, Emirhan "Hangaronn" Vardar tarafından açık kaynak topluluğuna katkı sağlamak amacıyla geliştirilmiştir. Tasarım dili olarak neon turuncu ve siyah renk paleti, Arc Reactor estetiği ve fütüristik kontrol paneli konsepti benimsenmiştir.
 
 ---
 
 # ⚡ Özellikler
 
-## 🟠 Cyberpunk Kullanıcı Arayüzü
+## 🟠 Siberpunk Kullanıcı Arayüzü
 
 * Neon turuncu ve siyah tema
 * Arc Reactor merkez tasarımı
-* Akıcı animasyonlar ve holografik efektler
+* Akıcı animasyonlar
+* Holografik efektler
 * Gerçek zamanlı durum göstergeleri
+* Modern kontrol paneli görünümü
 
 ## 🎙️ Sesli Komut Sistemi
 
 * Google Web Speech API desteği
 * Türkçe ses tanıma
 * Doğal dil komut algılama
-* Mikrofon destekli etkileşim
+* Mikrofon destekli kullanım
+* Sesli geri bildirim sistemi
 
-## 🤖 Gemini 2.5 Yapay Zeka Entegrasyonu
+## 🤖 Google Gemini Yapay Zeka Entegrasyonu
 
-* Google Gemini 2.5 desteği
+* Gemini 2.5 desteği
 * Akıllı soru-cevap sistemi
 * Hikaye oluşturma
 * Bilgi sorgulama
+* Sohbet desteği
 * Sesli ve yazılı yanıtlar
 
-## 🖥️ Python Desktop Bridge
+## 🖥️ Desktop Bridge Sistemi
 
-* Tarayıcı ile işletim sistemi arasında bağlantı
-* Yerel uygulamaları açabilme
-* Komut çalıştırabilme
-* Genişletilebilir uygulama desteği
+İsteğe bağlı Python Bridge desteği sayesinde:
 
-## 📈 Gerçek Zamanlı Telemetri
+* Yerel uygulamaları açabilir
+* İşletim sistemi komutları çalıştırabilir
+* Tarayıcı ile masaüstü arasında bağlantı kurabilir
+* Yeni uygulamalar kolayca eklenebilir
+
+## 📈 Gerçek Zamanlı Sistem Telemetrisi
 
 * Sistem durum logları
 * Bağlantı izleme
-* Ses aktivite göstergeleri
-* Terminal tarzı veri akışı
+* Mikrofon aktivitesi
+* Yapay zeka durum göstergeleri
+* Terminal tarzı canlı veri akışı
 
 ---
 
-# 🛠️ Kurulum
+# 🛠️ Kullanılan Teknolojiler
 
-## 1️⃣ Python Bridge'i Başlatın
+### Frontend
 
-Masaüstü uygulamalarını kontrol edebilmek için öncelikle Python köprüsünü çalıştırın:
+* HTML5
+* CSS3
+* JavaScript (Vanilla JS)
+
+### Yapay Zeka
+
+* Google Gemini API
+
+### Ses Teknolojileri
+
+* Web Speech API
+* Speech Synthesis API
+
+### Masaüstü Entegrasyonu
+
+* Python
+* Flask
+* Localhost API Bridge
+
+---
+
+# 🚀 Kurulum
+
+## 1️⃣ Projeyi İndirin
+
+```bash
+git clone https://github.com/Hangaron/jarvis-turkce-sesli-asistan.git
+```
+
+veya ZIP olarak indirip çıkartın.
+
+---
+
+## 2️⃣ Dashboard'u Açın
+
+```text
+jarvis_dashboard.html
+```
+
+dosyasını Google Chrome veya Chromium tabanlı bir tarayıcı ile açın.
+
+Kurulum gerektirmez.
+
+---
+
+## 3️⃣ Gemini API Anahtarını Girin
+
+1. Google AI Studio üzerinden API anahtarı oluşturun.
+2. Dashboard üzerindeki GEMINI API KEY alanına yapıştırın.
+3. Kaydet butonuna basın.
+
+> API anahtarları yalnızca kullanıcının kendi tarayıcısındaki Local Storage alanında saklanır.
+
+---
+
+## 4️⃣ Desktop Bridge'i Başlatın (Opsiyonel)
+
+Bilgisayardaki uygulamaları kontrol etmek istiyorsanız:
 
 ```bash
 python jarvis_bridge.py
 ```
 
-Varsayılan olarak sunucu aşağıdaki adreste çalışacaktır:
+Varsayılan bağlantı adresi:
 
 ```text
 http://localhost:8080
 ```
 
----
-
-## 2️⃣ Arayüzü Açın
-
-`jarvis_dashboard.html` dosyasını Google Chrome veya Chromium tabanlı bir tarayıcı ile açın.
-
-Ardından:
-
-1. Sol panelde bulunan **"KÖPRÜYÜ YENİDEN TARA"** butonuna basın.
-2. Durum göstergesinin **CONNECTED** olarak değiştiğini doğrulayın.
-
----
-
-## 3️⃣ Gemini API Anahtarını Tanımlayın
-
-1. Google AI Studio üzerinden bir API anahtarı oluşturun.
-2. Sol paneldeki **GEMINI API KEY** alanına yapıştırın.
-3. **KAYDET** butonuna basın.
-4. **ÖNEMLİ NOT** : Gemini Api'larda Limit Olabiliyor, Ve Jarvis Bunu Algılayabiliyor Limitsiz Kullanım Önerilir.
-
-> API anahtarınız yalnızca tarayıcınızın Local Storage alanında saklanır ve üçüncü taraf sunuculara gönderilmez.
+Dashboard üzerinden "KÖPRÜYÜ YENİDEN TARA" butonuna bastığınızda sistem otomatik olarak bağlantıyı algılar.
 
 ---
 
@@ -90,17 +138,17 @@ Ardından:
 
 | Komut                 | İşlem                      |
 | --------------------- | -------------------------- |
-| Not defterini aç      | Notepad başlatılır         |
-| Chrome'u aç           | Google Chrome açılır       |
-| Tarayıcıyı aç         | Varsayılan tarayıcı açılır |
-| Hesap makinesini aç   | Calculator çalıştırılır    |
-| Paint aç              | Microsoft Paint açılır     |
-| Çizim programını aç   | Paint çalıştırılır         |
-| Dosya yöneticisini aç | Dosya Gezgini açılır       |
+| Not Defterini Aç      | Notepad Başlatılır         |
+| Chrome'u Aç           | Google Chrome Açılır       |
+| Tarayıcıyı Aç         | Varsayılan Tarayıcı Açılır |
+| Hesap Makinesini Aç   | Calculator Başlatılır      |
+| Paint Aç              | Microsoft Paint Açılır     |
+| Çizim Programını Aç   | Paint Açılır               |
+| Dosya Yöneticisini Aç | Dosya Gezgini Açılır       |
 
-### Yapay Zeka Soruları
+---
 
-Aşağıdaki gibi herhangi bir soru sorabilirsiniz:
+# 💬 Yapay Zeka Örnekleri
 
 ```text
 Yapay zeka nedir?
@@ -111,37 +159,34 @@ Bana kısa bir hikaye anlat.
 ```
 
 ```text
-Bugün nasıl hissediyorsun?
+Python nasıl öğrenilir?
 ```
 
-Bu tür sorgular doğrudan Gemini API'ye gönderilir ve yapay zeka tarafından yanıtlanır.
+```text
+Bugün hava nasıl?
+```
+
+Bu tür sorular doğrudan Gemini API üzerinden işlenir ve J.A.R.V.I.S. tarafından yanıtlanır.
 
 ---
 
 # ⚙️ Yeni Uygulama Ekleme
 
-Yeni uygulamalar eklemek oldukça kolaydır.
-
 ## Python Bridge Tarafı
-
-`jarvis_bridge.py` içerisine yeni bir uygulama tanımlayın:
 
 ```python
 elif app_name == "spotify":
-    if is_win:
-        subprocess.Popen(["spotify.exe"])
-    return "Spotify başlatılıyor, Efendim."
+    subprocess.Popen(["spotify.exe"])
+    return "Spotify başlatılıyor."
 ```
 
 ## Frontend Tarafı
-
-`checkAndExecuteLocalCommand()` fonksiyonuna yeni tetikleyiciler ekleyin:
 
 ```javascript
 else if (
     text.includes("spotify") ||
     text.includes("müzik aç")
-) {
+){
     targetApp = "spotify";
 }
 ```
@@ -151,27 +196,56 @@ else if (
 # 📂 Proje Yapısı
 
 ```text
- jarvis_dashboard.html
-jarvis_bridge.py
- README.md
+jarvis-turkce-sesli-asistan/
+
+├── jarvis_dashboard.html
+├── jarvis_bridge.py
+├── README.md
+└── LICENSE
 ```
 
 ---
 
 # 🔒 Güvenlik
 
-* API anahtarları Local Storage üzerinde tutulur.
-* Uygulama yalnızca localhost bağlantısı kullanır.
-* Veriler harici sunuculara gönderilmez.
-* Açık kaynak kodlu ve denetlenebilirdir.
+* Açık kaynak kodludur.
+* Kaynak kodları incelenebilir.
+* API anahtarları yalnızca kullanıcı tarafında tutulur.
+* Localhost bağlantısı kullanılır.
+* Veriler üçüncü taraf sunucularda depolanmaz.
+* Kullanıcı gizliliği önceliklidir.
 
 ---
 
 # 📄 Lisans
 
-Bu proje **MIT License** altında lisanslanmıştır.
+Bu proje MIT License altında lisanslanmıştır.
 
-İstediğiniz gibi kullanabilir, geliştirebilir, değiştirebilir ve dağıtabilirsiniz.
+İstediğiniz gibi:
+
+* Kullanabilir
+* Geliştirebilir
+* Değiştirebilir
+* Dağıtabilir
+* Ticari projelerde kullanabilirsiniz
+
+---
+
+# 🌐 GitHub Repository
+
+Repository Adresi:
+
+https://github.com/Hangaron/jarvis-turkce-sesli-asistan
+
+Projeyi beğendiyseniz:
+
+⭐ Star vermeyi
+
+🍴 Fork'lamayı
+
+🐛 Hata bildirmeyi
+
+🚀 Katkıda bulunmayı unutmayın.
 
 ---
 
@@ -180,23 +254,15 @@ Bu proje **MIT License** altında lisanslanmıştır.
 **Emirhan "Hangaronn" Vardar**
 
 Bilgisayar Destekli Tasarım ve Animasyon Öğrencisi
+
 Yazılım Geliştirici • İçerik Üreticisi • Açık Kaynak Destekçisi
 
 GitHub: @Hangaronn
 
 ---
 
-## ⭐ Destek Ol
+# J.A.R.V.I.S. Core Dashboard // Hangaronn OS
 
-Projeyi beğendiyseniz:
+### Open Source Turkish Voice Assistant
 
-⭐ Star vermeyi
-🍴 Fork'lamayı
-🐛 Hata bildirmeyi
-🚀 Katkıda bulunmayı unutmayın.
-
----
-
-**J.A.R.V.I.S. Core Dashboard // Hangaronn OS**
-
-*"Technology. Intelligence. Control."*
+**Technology. Intelligence. Control.**
