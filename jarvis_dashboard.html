@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.A.R.V.I.S. // Hangaronn OS</title>
+    <!-- Tailwind CSS ve FontAwesome CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&display=swap');
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #050507;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255, 106, 0, 0.05) 0%, transparent 80%),
+                linear-gradient(rgba(18, 18, 24, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 24, 0.4) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+            color: #ff8c00;
+        }
+
+        .title-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Neon Glow Efektleri */
+        .neon-border {
+            box-shadow: 0 0 15px rgba(255, 106, 0, 0.15), inset 0 0 15px rgba(255, 106, 0, 0.1);
+            border: 1px solid rgba(255, 106, 0, 0.3);
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 8px rgba(255, 106, 0, 0.6);
+        }
+
+        .neon-glow-strong {
+            text-shadow: 0 0 15px rgba(255, 106, 0, 0.9), 0 0 30px rgba(255, 106, 0, 0.5);
+        }
+
+        .arc-reactor-glow {
+            box-shadow: 0 0 30px rgba(255, 106, 0, 0.3), inset 0 0 30px rgba(255, 106, 0, 0.2);
+        }
+
+        /* Animasyonlar */
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .animate-spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+        .animate-spin-reverse {
+            animation: spin-reverse 15s linear infinite;
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 4s ease-in-out infinite;
+        }
+
+        /* Scrollbar Özelleştirme */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0d11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff6a00;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 overflow-x-hidden">
+
+    <!-- ÜST BAR / HEADER -->
+    <header class="w-full neon-border bg-[#0d0d11]/95 rounded-lg p-4 flex flex-wrap justify-between items-center gap-4 mb-4 z-10">
+        <div class="flex items-center gap-4">
+            <div class="relative w-10 h-10 flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full border-2 border-dashed border-[#ff6a00] animate-spin-slow"></div>
+                <i class="fa-solid fa-shield-halved text-[#ff6a00] text-lg animate-pulse"></i>
+            </div>
+            <div>
+                <h1 class="title-font text-lg md:text-xl font-black tracking-widest text-[#ff6a00] neon-glow">J.A.R.V.I.S.</h1>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Açık Kaynak Sistem Entegrasyonu v2.5</p>
+            </div>
+        </div>
+
+        <!-- Sistem Durum Göstergeleri -->
+        <div class="flex flex-wrap items-center gap-6 text-xs">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+                <span class="text-gray-400">CORE STATS:</span>
+                <span class="text-[#ff6a00] font-bold">ONLINE</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span id="bridge-indicator" class="w-2 h-2 rounded-full bg-red-500"></span>
+                <span class="text-gray-400">PY BRIDGE:</span>
+                <span id="bridge-status-text" class="text-red-500 font-bold">OFFLINE</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span id="api-indicator" class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                <span class="text-gray-400">GEMINI API:</span>
+                <span id="api-status-text" class="text-yellow-500 font-bold font-mono">YAPILANDIRILMADI</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ANA IÇERIK ALANI -->
+    <main class="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch mb-4">
+        
+        <!-- SOL PANEL: SISTEM TANILAMA & AYARLAR (3 Sütun) -->
+        <section class="lg:col-span-3 flex flex-col gap-4">
+            <!-- Yapay Zeka Ayarları -->
+            <div class="neon-border bg-[#0d0d11]/90 rounded-lg p-4 flex flex-col gap-3">
+                <h2 class="title-font text-sm font-bold border-b border-[#ff6a00]/30 pb-2 flex items-center gap-2 text-[#ff8c00]">
+                    <i class="fa-solid fa-sliders"></i> SİSTEM AYARLARI
+                </h2>
+                <div class="flex flex-col gap-1">
+                    <label class="text-[11px] text-gray-400">GEMINI API KEY:</label>
+                    <div class="relative">
+                        <input id="api-key-input" type="password" placeholder="AI Anahtarını Buraya Girin" 
+                               class="w-full bg-[#121218] border border-[#ff6a00]/30 rounded px-2 py-1.5 text-xs text-orange-200 focus:outline-none focus:border-[#ff6a00] pr-8">
+                        <button onclick="toggleApiKeyVisibility()" class="absolute right-2 top-2 text-gray-500 hover:text-[#ff6a00]">
+                            <i id="api-key-eye" class="fa-solid fa-eye-slash text-xs"></i>
+                        </button>
+                    </div>
+                    <button onclick="saveApiKey()" class="mt-1.5 w-full bg-[#ff6a00] hover:bg-[#ff8c00] text-black font-bold text-xs py-1.5 rounded transition duration-200">
+                        ANAHTARI KAYDET
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bilgisayar Köprüsü (Python Bridge) Bilgisi -->
+            <div class="neon-border bg-[#0d0d11]/90 rounded-lg p-4 flex-grow flex flex-col justify-between gap-3">
+                <div>
+                    <h2 class="title-font text-sm font-bold border-b border-[#ff6a00]/30 pb-2 flex items-center gap-2 text-[#ff8c00]">
+                        <i class="fa-solid fa-link"></i> PYTHON BRIDGE (Masaüstü Bağlantısı)
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                        Masaüstündeki programları (Chrome, Not Defteri, Hesap Makinesi vs.) sesli komutlarla açmak için yerel Python sunucusunu çalıştırmalısınız.
+                    </p>
+                    <div class="mt-3 bg-[#050507] p-2 rounded border border-[#ff6a00]/10 text-[11px] text-orange-200 font-mono">
+                        Port: <span class="text-white">8080 (HTTP)</span><br>
+                        Durum: <span id="bridge-detail" class="text-red-500 font-bold">Bağlantı Yok</span>
+                    </div>
+                </div>
+                <button onclick="checkPythonBridge()" class="w-full border border-[#ff6a00]/40 hover:bg-[#ff6a00]/10 text-[#ff6a00] text-xs py-1.5 rounded transition duration-200 font-bold">
+                    KÖPRÜYÜ YENİDEN TARA
+                </button>
+            </div>
+        </section>
+
+        <!-- ORTA PANEL: REAKTÖR ÇEKİRDEĞİ & SES EFEKTLERİ (5 Sütun) -->
+        <section class="lg:col-span-5 flex flex-col items-center justify-center neon-border bg-[#0d0d11]/40 rounded-lg p-6 relative overflow-hidden min-h-[400px]">
+            
+            <!-- Arka Plandaki Hologram Halkaları -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                <div class="w-80 h-80 rounded-full border border-[#ff6a00] animate-spin-slow"></div>
+                <div class="absolute w-64 h-64 rounded-full border border-dashed border-[#ff8c00] animate-spin-reverse"></div>
+                <div class="absolute w-48 h-48 rounded-full border border-double border-[#ff6a00] animate-pulse-slow"></div>
+            </div>
+
+            <!-- Merkez Arc Reaktör -->
+            <div class="relative z-10 flex flex-col items-center gap-6">
+                <div id="arc-reactor" class="w-48 h-48 rounded-full bg-black/60 arc-reactor-glow border-2 border-[#ff6a00]/40 flex items-center justify-center cursor-pointer group transition duration-300 transform hover:scale-105" onclick="toggleListening()">
+                    <!-- Dış Döngü Dişlisi -->
+                    <div class="absolute w-40 h-40 rounded-full border-4 border-dashed border-[#ff6a00]/60 animate-spin-slow group-hover:border-[#ff6a00]"></div>
+                    <!-- İç Güç Plakası -->
+                    <div id="reactor-core" class="w-28 h-28 rounded-full bg-radial-gradient from-[#ff8c00]/30 to-black/80 border border-[#ff6a00] flex items-center justify-center transition duration-300">
+                        <i id="mic-icon" class="fa-solid fa-microphone text-4xl text-[#ff6a00] animate-pulse"></i>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p id="action-hint" class="text-sm font-bold text-[#ff8c00] neon-glow tracking-widest uppercase">JARVIS'LE KONUŞMAK İÇİN TIKLA</p>
+                    <p id="recognition-transcript" class="text-xs text-gray-400 mt-2 max-w-xs mx-auto italic min-h-[32px] overflow-hidden">
+                        "Not defterini aç" veya "Bugün hava nasıl?" demeyi deneyin...
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ses Dalgaları Görseli -->
+            <div class="absolute bottom-4 left-0 right-0 flex justify-center items-end gap-1 h-8 px-8 pointer-events-none">
+                <div class="voice-bar w-1 bg-[#ff6a00] rounded-full h-1 transition-all duration-150"></div>
+                <div class="voice-bar w-1 bg-[#ff8c00] rounded-full h-2 transition-all duration-150"></div>
+                <div class="voice-bar w-1 bg-[#ff6a00] rounded-full h-1 transition-all duration-150"></div>
+                <div class="voice-bar w-1 bg-[#ff8c00] rounded-full h-3 transition-all duration-150"></div>
+                <div class="voice-bar w-1 bg-[#ff6a00] rounded-full h-1 transition-all duration-150"></div>
+            </div>
+        </section>
+
+        <!-- SAĞ PANEL: TERMINAL LOGLARI & SOHBET AKIŞI (4 Sütun) -->
+        <section class="lg:col-span-4 flex flex-col neon-border bg-[#0d0d11]/90 rounded-lg p-4 h-[400px] lg:h-auto">
+            <h2 class="title-font text-sm font-bold border-b border-[#ff6a00]/30 pb-2 flex items-center justify-between text-[#ff8c00]">
+                <span><i class="fa-solid fa-terminal"></i> İLETİŞİM & TELEMETRİ LOGLARI</span>
+                <button onclick="clearLogs()" class="text-xs text-gray-500 hover:text-red-500 transition duration-150">TEMİZLE</button>
+            </h2>
+
+            <!-- Terminal Akışı -->
+            <div id="terminal-feed" class="flex-grow overflow-y-auto my-3 p-3 bg-[#050507] rounded border border-[#ff6a00]/10 font-mono text-xs flex flex-col gap-2.5">
+                <div class="text-gray-500">[SİSTEM]: JARVIS v2.5 başlatıldı. Çekirdek durum: AKTİF.</div>
+                <div class="text-[#ff6a00]">[JARVIS]: Çevrimdışı ve çevrimiçi protokoller hazırlandı, sizi dinliyorum Efendim.</div>
+            </div>
+
+            <!-- Manuel Metin Girişi -->
+            <form onsubmit="handleManualInput(event)" class="flex gap-2">
+                <input id="manual-text-input" type="text" placeholder="Komut yazın veya JARVIS'e sorun..." 
+                       class="flex-grow bg-[#121218] border border-[#ff6a00]/30 rounded px-3 py-2 text-xs text-orange-200 focus:outline-none focus:border-[#ff6a00]">
+                <button type="submit" class="bg-[#ff6a00] hover:bg-[#ff8c00] text-black font-bold px-4 py-2 rounded text-xs transition duration-200 flex items-center justify-center">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- ALT BİLGİ / FOOTER -->
+    <footer class="w-full neon-border bg-[#0d0d11]/95 rounded-lg p-3 text-center text-[11px] md:text-xs z-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-2">
+            <div>
+                <span class="text-gray-500">PROJE:</span> <span class="text-[#ff6a00] font-bold">JARVIS CORESHELL SYSTEM</span>
+            </div>
+            <div class="tracking-wider">
+                <i class="fa-solid fa-code-branch text-[#ff6a00]"></i> 
+                Emirhan <span class="text-white font-bold">"Hangaronn"</span> Vardar Tarafından Açık Kaynak Kodlu Olarak Geliştirilmiştir.
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="https://github.com" target="_blank" class="hover:text-white text-gray-400 transition duration-150"><i class="fa-brands fa-github text-sm"></i></a>
+                <span class="text-gray-600">|</span>
+                <span class="text-gray-500">MIT Lisansı</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT ÇEKİRDEK KODLARI -->
+    <script>
+        // API Değişkenleri
+        const apiKey = ""; // Runtime için boş bırakıldı, kullanıcı UI üzerinden de tanımlayabilir.
+        let pythonBridgeUrl = "http://localhost:8080";
+        let isListening = false;
+        let recognition = null;
+        let isSpeaking = false;
+
+        // Sayfa yüklendiğinde çalışacak başlatıcı
+        window.onload = function() {
+            initSpeechRecognition();
+            checkSavedApiKey();
+            checkPythonBridge();
+            synthesizeAudioFeedback(100, 300, 0.1); // Hoş geldin bip sesi
+        };
+
+        // UI için Göz kırpma / API Key Görünürlük ayarı
+        function toggleApiKeyVisibility() {
+            const input = document.getElementById('api-key-input');
+            const eye = document.getElementById('api-key-eye');
+            if (input.type === 'password') {
+                input.type = 'text';
+                eye.className = "fa-solid fa-eye text-xs text-[#ff6a00]";
+            } else {
+                input.type = 'password';
+                eye.className = "fa-solid fa-eye-slash text-xs";
+            }
+        }
+
+        // API anahtarını yerel depolamaya kaydetme (Geliştirici veya Kullanıcı için)
+        function saveApiKey() {
+            const key = document.getElementById('api-key-input').value.trim();
+            if (key) {
+                localStorage.setItem('jarvis_gemini_key', key);
+                logToTerminal("SİSTEM", "Gemini API Key kaydedildi ve doğrulandı.", "text-green-400");
+                updateApiIndicator(true);
+            } else {
+                localStorage.removeItem('jarvis_gemini_key');
+                logToTerminal("SİSTEM", "Gemini API Key temizlendi.", "text-yellow-400");
+                updateApiIndicator(false);
+            }
+        }
+
+        function checkSavedApiKey() {
+            const key = localStorage.getItem('jarvis_gemini_key') || apiKey;
+            if (key) {
+                document.getElementById('api-key-input').value = key;
+                updateApiIndicator(true);
+            } else {
+                updateApiIndicator(false);
+            }
+        }
+
+        function updateApiIndicator(hasKey) {
+            const ind = document.getElementById('api-indicator');
+            const txt = document.getElementById('api-status-text');
+            if (hasKey) {
+                ind.className = "w-2 h-2 rounded-full bg-green-500 animate-pulse";
+                txt.textContent = "AKTİF / BULUTTA";
+                txt.className = "text-green-500 font-bold";
+            } else {
+                ind.className = "w-2 h-2 rounded-full bg-yellow-500";
+                txt.textContent = "YAPILANDIRILMADI";
+                txt.className = "text-yellow-500 font-bold";
+            }
+        }
+
+        // Python Bridge Durumunu Kontrol Etme
+        async function checkPythonBridge() {
+            const ind = document.getElementById('bridge-indicator');
+            const txt = document.getElementById('bridge-status-text');
+            const detail = document.getElementById('bridge-detail');
+            try {
+                const response = await fetch(`${pythonBridgeUrl}/status`, { method: 'GET' });
+                if (response.ok) {
+                    ind.className = "w-2 h-2 rounded-full bg-green-500 animate-pulse";
+                    txt.textContent = "CONNECTED";
+                    txt.className = "text-green-500 font-bold";
+                    detail.textContent = "Yerel Köprü Bağlı - Masaüstü Aktif";
+                    detail.className = "text-green-400 font-bold";
+                    return true;
+                }
+            } catch (err) {
+                ind.className = "w-2 h-2 rounded-full bg-red-500";
+                txt.textContent = "OFFLINE";
+                txt.className = "text-red-500 font-bold";
+                detail.textContent = "Bağlantı Yok - jarvis_bridge.py çalıştırılmalı";
+                detail.className = "text-red-500 font-bold";
+                return false;
+            }
+        }
+
+        // Terminal Loglama Fonksiyonu
+        function logToTerminal(sender, message, textClass = "text-[#ff8c00]") {
+            const feed = document.getElementById('terminal-feed');
+            const entry = document.createElement('div');
+            entry.className = textClass;
+            entry.innerHTML = `[${sender}]: ${message}`;
+            feed.appendChild(entry);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function clearLogs() {
+            const feed = document.getElementById('terminal-feed');
+            feed.innerHTML = `<div class="text-gray-500">[SİSTEM]: Loglar sıfırlandı. Çekirdek aktif.</div>`;
+        }
+
+        // Web Speech API - Ses Tanıma Kurulumu
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                logToTerminal("UYARI", "Tarayıcınız ses tanımayı desteklemiyor. Lütfen Chrome kullanın.", "text-red-400");
+                return;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.lang = 'tr-TR';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onstart = function() {
+                isListening = true;
+                document.getElementById('mic-icon').className = "fa-solid fa-wave-square text-4xl text-red-500";
+                document.getElementById('reactor-core').classList.add('border-red-500');
+                document.getElementById('action-hint').textContent = "DİNLENİYOR...";
+                document.getElementById('action-hint').className = "text-sm font-bold text-red-500 animate-pulse";
+                synthesizeAudioFeedback(150, 400, 0.05);
+                animateVoiceBars(true);
+            };
+
+            recognition.onend = function() {
+                isListening = false;
+                document.getElementById('mic-icon').className = "fa-solid fa-microphone text-4xl text-[#ff6a00]";
+                document.getElementById('reactor-core').classList.remove('border-red-500');
+                document.getElementById('action-hint').textContent = "JARVIS'LE KONUŞMAK İÇİN TIKLA";
+                document.getElementById('action-hint').className = "text-sm font-bold text-[#ff8c00] neon-glow tracking-widest uppercase";
+                animateVoiceBars(false);
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('recognition-transcript').textContent = `"${transcript}"`;
+                logToTerminal("USER (SES)", transcript, "text-white");
+                processInput(transcript);
+            };
+
+            recognition.onerror = function(event) {
+                logToTerminal("HATA (SES)", "Ses tanınamadı veya iptal edildi.", "text-red-500");
+            };
+        }
+
+        function toggleListening() {
+            if (!recognition) return;
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        // Manuel Metin Girişi Yakalama
+        function handleManualInput(e) {
+            e.preventDefault();
+            const input = document.getElementById('manual-text-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            logToTerminal("USER (YAZI)", val, "text-white");
+            document.getElementById('recognition-transcript').textContent = `"${val}"`;
+            processInput(val);
+            input.value = "";
+        }
+
+        // Ses dalga animasyonlarını tetikleme
+        let waveInterval;
+        function animateVoiceBars(active) {
+            const bars = document.querySelectorAll('.voice-bar');
+            if (active) {
+                waveInterval = setInterval(() => {
+                    bars.forEach(bar => {
+                        const height = Math.floor(Math.random() * 24) + 4;
+                        bar.style.height = `${height}px`;
+                    });
+                }, 100);
+            } else {
+                clearInterval(waveInterval);
+                bars.forEach(bar => {
+                    bar.style.height = `4px`;
+                });
+            }
+        }
+
+        // Ana İşlemci: Girdi Komut mu yoksa Yapay Zeka Sorusu mu?
+        async function processInput(input) {
+            const normalizedInput = input.toLowerCase().trim();
+            
+            // 1. Yerel Masaüstü Köprü Komutları Kontrolü
+            const isLocalCommand = checkAndExecuteLocalCommand(normalizedInput);
+            if (isLocalCommand) return;
+
+            // 2. Yapay Zekaya (Gemini) Gönder
+            logToTerminal("SİSTEM", "Zihinsel analizler yapılıyor, Gemini API sorgulanıyor...", "text-gray-500");
+            try {
+                const aiResponse = await callGeminiAPI(input);
+                if (aiResponse) {
+                    logToTerminal("JARVIS", aiResponse, "text-[#ff6a00]");
+                    speakText(aiResponse);
+                } else {
+                    const failMsg = "Efendim, zihinsel bağlantıda bir kopukluk oldu. Lütfen API anahtarınızı kontrol edin.";
+                    logToTerminal("JARVIS", failMsg, "text-red-400");
+                    speakText(failMsg);
+                }
+            } catch (error) {
+                const failMsg = "Yapay Zeka modülüne bağlanılamadı. API anahtarı geçersiz olabilir.";
+                logToTerminal("JARVIS", failMsg, "text-red-500");
+                speakText(failMsg);
+            }
+        }
+
+        // Yerel komut tetikleyicileri (Python sunucusuna gönderim)
+        function checkAndExecuteLocalCommand(text) {
+            let targetApp = "";
+            
+            if (text.includes("notepad") || text.includes("not defteri")) {
+                targetApp = "notepad";
+            } else if (text.includes("chrome") || text.includes("tarayıcı") || text.includes("browser")) {
+                targetApp = "chrome";
+            } else if (text.includes("hesap makinesi") || text.includes("calculator") || text.includes("hesapla")) {
+                targetApp = "calculator";
+            } else if (text.includes("paint") || text.includes("çizim")) {
+                targetApp = "paint";
+            } else if (text.includes("dosya yöneticisi") || text.includes("explorer") || text.includes("bilgisayarım")) {
+                targetApp = "explorer";
+            }
+
+            if (targetApp !== "") {
+                triggerLocalApp(targetApp);
+                return true;
+            }
+            return false;
+        }
+
+        // Python Bridge'e istek atma
+        async function triggerLocalApp(appName) {
+            logToTerminal("SİSTEM", `Yerel köprüye komut iletiliyor: ${appName}`, "text-gray-500");
+            try {
+                const response = await fetch(`${pythonBridgeUrl}/execute`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: appName })
+                });
+                const result = await response.json();
+                
+                if (result.status === "success") {
+                    logToTerminal("JARVIS", result.message, "text-[#ff6a00]");
+                    speakText(result.message);
+                } else {
+                    logToTerminal("JARVIS", "Komut yürütülemedi: " + result.error, "text-red-400");
+                }
+            } catch (err) {
+                const warnMsg = "Masaüstü köprüsü kapalı. Uygulamayı başlatamadım, Efendim.";
+                logToTerminal("JARVIS", warnMsg, "text-yellow-500");
+                speakText(warnMsg);
+            }
+        }
+
+        // Gemini 2.5 Flash API Entegrasyonu (Exponential Backoff ile)
+        async function callGeminiAPI(userQuery) {
+            const systemPrompt = "Sen Emirhan 'Hangaronn' Vardar tarafından geliştirilmiş açık kaynaklı bir yapay zeka asistanı olan JARVIS'sin. Kullanıcıya 'Efendim' veya 'Sir' diye hitap et. Cevapların kısa, net, son derece zeki, hafif esprili ve teknik olsun. Türkçe konuş. Yanıtların genellikle 1-3 cümleyi aşmasın.";
+            const userSavedKey = localStorage.getItem('jarvis_gemini_key') || apiKey;
+            
+            if (!userSavedKey) {
+                logToTerminal("JARVIS", "Sohbet edebilmemiz için sol panelden bir Gemini API Key eklemelisiniz.", "text-yellow-500");
+                return "Sohbet etmek için bir API anahtarına ihtiyacım var, Efendim. Ayarlar panelini kullanabilirsiniz.";
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userSavedKey}`;
+            
+            let delay = 1000;
+            // 5 kez üst üste deneme (Exponential Backoff)
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] }
+                        })
+                    });
+                    
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || null;
+                } catch (error) {
+                    if (i === 4) {
+                        throw error;
+                    }
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; // Gecikmeyi iki katına çıkar
+                }
+            }
+        }
+
+        // Web Speech API - Metin Okuma (Speech Synthesis)
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+            
+            // Halihazırda konuşuyorsa iptal et
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'tr-TR';
+            
+            // Türkçe ses bulmaya çalışalım
+            const voices = window.speechSynthesis.getVoices();
+            const trVoice = voices.find(voice => voice.lang.includes('tr'));
+            if (trVoice) {
+                utterance.voice = trVoice;
+            }
+            
+            // JARVIS karakteri için hafifçe tonu ve hızı ayarlayalım
+            utterance.pitch = 0.85; // Biraz daha kalın/karizmatik erkek sesi
+            utterance.rate = 1.05; // Akıcı ve dinamik konuşma hızı
+
+            utterance.onstart = function() {
+                isSpeaking = true;
+                animateVoiceBars(true);
+            };
+
+            utterance.onend = function() {
+                isSpeaking = false;
+                animateVoiceBars(false);
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Web Audio API ile yapay bilimkurgu sinyal sesleri
+        function synthesizeAudioFeedback(freq, duration, volume) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine'; // temiz ses dalgası
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                
+                gain.gain.setValueAtTime(volume, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration/1000);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start();
+                osc.stop(ctx.currentTime + duration/1000);
+            } catch (e) {
+                // Tarayıcı audio bağlamı kısıtlamış olabilir
+            }
+        }
+    </script>
+</body>
+</html>
