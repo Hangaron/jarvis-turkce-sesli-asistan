@@ -66,7 +66,7 @@ http://localhost:8080
 
 ## 2️⃣ Arayüzü Açın
 
-`index.html` dosyasını Google Chrome veya Chromium tabanlı bir tarayıcı ile açın.
+`jarvis_dashboard.html` dosyasını Google Chrome veya Chromium tabanlı bir tarayıcı ile açın.
 
 Ardından:
 
@@ -80,6 +80,7 @@ Ardından:
 1. Google AI Studio üzerinden bir API anahtarı oluşturun.
 2. Sol paneldeki **GEMINI API KEY** alanına yapıştırın.
 3. **KAYDET** butonuna basın.
+4. **ÖNEMLİ NOT** : Gemini Api'larda Limit Olabiliyor, Ve Jarvis Bunu Algılayabiliyor Limitsiz Kullanım Önerilir.
 
 > API anahtarınız yalnızca tarayıcınızın Local Storage alanında saklanır ve üçüncü taraf sunuculara gönderilmez.
 
